@@ -13,7 +13,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Importing from this django project
-from .serializers import AccountSerializer, LoginSerializer
+from .serializers import AccountSerializer, LoginSerializer, UserSerializer
 from .models import CustomUser
 
 
@@ -69,3 +69,11 @@ class AccountLogout(APIView):
                 {"error": "User is not authenticated"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+# List all users
+# Only to be used by Superusers
+class UserListView(APIView):
+    def get(self, request):
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

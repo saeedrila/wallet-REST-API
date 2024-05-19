@@ -10,7 +10,12 @@ from rest_framework_simplejwt.views import (
 )
 
 # Custom imports
-from authentication.views import AccountSignup, AccountLogin, AccountLogout
+from authentication.views import (
+    AccountSignup, 
+    AccountLogin, 
+    AccountLogout, 
+    UserListView
+)
 
 urlpatterns = [
     # Admin page
@@ -28,4 +33,7 @@ urlpatterns = [
     path("api/signup", AccountSignup.as_view(), name="signup"),
     path("api/login", AccountLogin.as_view(), name="login"),
     path("api/logout", AccountLogout.as_view(), name="logout"),
+
+    # List all users
+    path("api/list-users", UserListView.as_view(), name="list-users"),
 ]

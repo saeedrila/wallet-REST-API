@@ -32,3 +32,4 @@ Installed django, Created authentication, wallet apps
 Installed DRF, DRF-simplejwt, Black
 Created models for user and wallet balance. When a user is created, a wallet will also created using signals.
 Migrate models
+Create URLs and views for user Signup, Login, Logout
