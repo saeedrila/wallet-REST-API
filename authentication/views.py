@@ -1,23 +1,10 @@
 # Importing modules from django
 from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
 
 # Importing modules from DRF
-from rest_framework_simplejwt.tokens import (
-    RefreshToken,
-    OutstandingToken,
-    AccessToken,
-    TokenError,
-)
-from rest_framework_simplejwt.token_blacklist.models import (
-    BlacklistedToken,
-    OutstandingToken,
-)
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -26,8 +13,13 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 # Importing from this django project
 from .serializers import AccountSerializer, LoginSerializer, UserSerializer
 from .models import CustomUser
-from wallet.models import Transaction
+from wallet.models import Transactions
 from wallet.serializers import TransactionHistorySerializer
+
+"""
+Account Signup and Account signup for admin are created separately and can be
+accessed from seperate urls.
+"""
 
 
 # Account signup
@@ -98,8 +90,14 @@ class AccountLogout(APIView):
             )
 
 
+"""
+UserListView and TransactionHistoryUser provides list of all users and transactions of
+a provided user ID. These two views can be accesses by staff or admin user only.
+Admin users has to be created using "api/signup-admin" url.
+"""
+
+
 # List all users
-# Only to be used by Superusers
 class UserListView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
@@ -109,13 +107,14 @@ class UserListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# Lists all transactions of user with given user ID
 class TransactionHistoryUser(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, request):
         user_id = request.query_params.get("user_id")
         if user_id is not None:
-            transactions = Transaction.objects.filter(user_id=user_id)
+            transactions = Transactions.objects.filter(user_id=user_id)
             print(transactions)
             serializer = TransactionHistorySerializer(transactions, many=True)
             return Response(serializer.data)

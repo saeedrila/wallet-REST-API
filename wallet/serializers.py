@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Wallet, Transaction
+from .models import Wallet, Transactions
 
 
 class WalletSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     wallet_balance = serializers.SerializerMethodField()
 
     class Meta:
-        model = Transaction
+        model = Transactions
         fields = ["amount", "transaction_type", "timestamp", "wallet_balance"]
 
     def get_wallet_balance(self, obj):
@@ -25,5 +25,5 @@ class TransactionSerializer(serializers.ModelSerializer):
 class TransactionHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Transaction
+        model = Transactions
         fields = ["amount", "transaction_type", "timestamp"]

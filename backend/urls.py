@@ -25,6 +25,9 @@ from wallet.views import (
     TransactionHistory,
 )
 
+"""
+All urls were added in the project's url module due to lower number of endpoints.
+"""
 urlpatterns = [
     # Admin page
     path("admin/", admin.site.urls),
@@ -46,6 +49,7 @@ urlpatterns = [
     path("wallet/balance/", WalletBalance.as_view(), name="wallet-balance"),
     path("wallet/deposit/", WalletDeposit.as_view(), name="wallet-deposit"),
     path("wallet/withdraw/", WalletWithdrawal.as_view(), name="wallet-withdrawal"),
+    # Wallet transaction history
     path(
         "wallet/transaction-history/",
         TransactionHistory.as_view(),

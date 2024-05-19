@@ -1,9 +1,12 @@
-from decimal import Decimal
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.conf import settings
-from .models import Wallet, Transaction
+
+from .models import Wallet
 from authentication.models import CustomUser
+
+"""
+Signals are used to automatically create wallet when a user is created.
+"""
 
 
 @receiver(post_save, sender=CustomUser)
@@ -15,18 +18,3 @@ def create_wallet(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def save_wallet(sender, instance, **kwargs):
     instance.wallet.save()
-
-
-@receiver(post_save, sender=Transaction)
-def update_wallet_balance(sender, instance, created, **kwargs):
-    if created:
-        wallet = Wallet.objects.get(user=instance.user)
-
-        amount = Decimal(instance.amount)
-
-        if instance.transaction_type == "withdrawal":
-            wallet.balance -= amount
-        elif instance.transaction_type == "deposit":
-            wallet.balance += amount
-
-        wallet.save()

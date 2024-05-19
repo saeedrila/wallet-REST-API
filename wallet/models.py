@@ -2,6 +2,11 @@ from django.db import models
 from django.conf import settings
 from authentication.models import CustomUser
 
+"""
+A wallet table with one to one relation with CustomUser table is created. This helps
+easier access to balance of users.
+"""
+
 
 class Wallet(models.Model):
     user = models.OneToOneField(
@@ -15,7 +20,15 @@ class Wallet(models.Model):
         return f"{self.user}'s wallet"
 
 
-class Transaction(models.Model):
+"""
+Transaction table contains all the transaction of all users.
+Index is created on user field for faster access.
+This model is suitable for lower number of transaction and users.
+Have to modify this for scaling to millions of transactions.
+"""
+
+
+class Transactions(models.Model):
     WITHDRAWAL = "withdrawal"
     DEPOSIT = "deposit"
     TRANSACTION_CHOICES = [

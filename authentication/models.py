@@ -5,6 +5,11 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+"""
+Custom user table and manager were created.
+Email is the required field
+"""
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
