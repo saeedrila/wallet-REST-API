@@ -4,7 +4,8 @@ from authentication.models import CustomUser
 
 
 class Wallet(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="wallet"
+    user = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="wallet"
     )
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -15,18 +16,18 @@ class Wallet(models.Model):
 
 
 class Transaction(models.Model):
-    DEBIT = 'debit'
-    CREDIT = 'credit'
+    WITHDRAWAL = "withdrawal"
+    DEPOSIT = "deposit"
     TRANSACTION_CHOICES = [
-        (DEBIT, 'Debit'),
-        (CREDIT, 'Credit'),
+        (WITHDRAWAL, "Withdrawal"),
+        (DEPOSIT, "Deposit"),
     ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     transaction_type = models.CharField(max_length=20, choices=TRANSACTION_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         indexes = [
-            models.Index(fields=['user']),
+            models.Index(fields=["user"]),
         ]

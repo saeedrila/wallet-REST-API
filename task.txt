@@ -26,10 +26,3 @@ including validation errors, insufficient balance, and unauthorized access.
 5) Database Models: 
 ➔ Design Django models for users and wallets, considering relationships, 
 fields, and constraints necessary for the wallet system.
-
-Created env
-Installed django, Created authentication, wallet apps
-Installed DRF, DRF-simplejwt, Black
-Created models for user and wallet balance. When a user is created, a wallet will also created using signals.
-Migrate models
-Create URLs and views for user Signup, Login, Logout

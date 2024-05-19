@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -21,9 +22,11 @@ def update_wallet_balance(sender, instance, created, **kwargs):
     if created:
         wallet = Wallet.objects.get(user=instance.user)
 
-        if instance.transaction_type == 'debit':
-            wallet.balance -= instance.amount
-        elif instance.transaction_type == 'credit':
-            wallet.balance += instance.amount
+        amount = Decimal(instance.amount)
+
+        if instance.transaction_type == "withdrawal":
+            wallet.balance -= amount
+        elif instance.transaction_type == "deposit":
+            wallet.balance += amount
 
         wallet.save()

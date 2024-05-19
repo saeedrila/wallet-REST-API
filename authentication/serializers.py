@@ -10,12 +10,11 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'password']
+        fields = ["email", "password"]
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
-            email=validated_data['email'],
-            password=validated_data['password']
+            email=validated_data["email"], password=validated_data["password"]
         )
         return user
 
@@ -25,10 +24,11 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+
 # List user serializer
 class UserSerializer(serializers.ModelSerializer):
     wallet = WalletSerializer()
-    
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'wallet']
+        fields = ["id", "email", "wallet"]
