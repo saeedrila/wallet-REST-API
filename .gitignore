@@ -1,0 +1,6 @@
+# Env files
+venv/
+.env
+
+# PYC files
+*.pyc
